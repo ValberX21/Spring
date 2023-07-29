@@ -15,21 +15,15 @@ public class Produto {
     @Column(name = "descricao")
     private String descricao;
 
-    @Column(name = "preco")
+    @Column(name = "preco_unitario")
     private BigDecimal preco;
-
-    public Produto(Integer id, String descricao, BigDecimal preco) {
-        id = id;
-        this.descricao = descricao;
-        this.preco = preco;
-    }
 
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
-        id = id;
+        this.id = id;
     }
 
     public String getDescricao() {

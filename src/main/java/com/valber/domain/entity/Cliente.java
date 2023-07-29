@@ -1,23 +1,39 @@
 package com.valber.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table (name = "Cliente")
-
+@Table( name = "cliente" )
 public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private Integer Id;
+    private Integer id;
 
     @Column(name = "nome", length = 100)
     private String nome;
 
-    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY )
+    @Column(name = "cpf", length = 11)
+    private String cpf;
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    @JsonIgnore
+    @OneToMany( mappedBy = "cliente" , fetch = FetchType.LAZY )
     private Set<Pedido> pedidos;
+
+    public Cliente() {
+    }
 
     public Set<Pedido> getPedidos() {
         return pedidos;
@@ -28,7 +44,7 @@ public class Cliente {
     }
 
     public Cliente(Integer id, String nome) {
-        Id = id;
+        this.id = id;
         this.nome = nome;
     }
 
@@ -36,21 +52,12 @@ public class Cliente {
         this.nome = nome;
     }
 
-    public Cliente(Integer id) {
-        Id = id;
-    }
-
-    public Cliente()
-    {
-
-    }
-
     public Integer getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Integer id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getNome() {
@@ -64,7 +71,7 @@ public class Cliente {
     @Override
     public String toString() {
         return "Cliente{" +
-                "Id=" + Id +
+                "id=" + id +
                 ", nome='" + nome + '\'' +
                 '}';
     }

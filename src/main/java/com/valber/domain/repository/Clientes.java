@@ -1,39 +1,57 @@
 package com.valber.domain.repository;
 
 import com.valber.domain.entity.Cliente;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.repository.query.Param;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
-import java.util.List;
 
 public interface Clientes extends JpaRepository<Cliente, Integer> {
 
+    @Query(value = " select nome from cliente c where c.nome like %:nome% ", nativeQuery = true)
+    String findByNomeLike(@Param("nome") String nome);
+
+    @Transactional
+    void deleteByNome(String nome);
+
     @Transactional
     @Modifying
-    @Query(value = " select * from cliente c where c.nome = :nome ", nativeQuery = true)
-    List<Cliente> findNomeByLike(@Param("nome") String nome);
+    @Query(value = " delete from Cliente c where c.nome=:nome")
+    void deleteByNomeQuery(@Param("nome") String nome);
 
-//    @Query(" delete from CLIENTE c where c.nome =:nome ")
+    //
+    //@Query(" select * from Cliente c left join pedidp p on c.pedido where c.id =:id ")
+    //@Query(" select c from Cliente c left join fetch c.pedidos where c.id = :id  ")
+    //Cliente findClienteFetchPedidos(@Param("id") Integer id);
+
+    @Transactional
+    @Query(" select c from Cliente c left join fetch c.pedidos where c.id =:id  ")
+    Cliente findClienteFetchPedidos( @Param("id") Integer id );
+
+}
+
 //    @Modifying
-//    void deleteByNome(String nome);
+//    @Query(value = "update rule set order_id=?2 where id=?1", nativeQuery = true)
+//    void updateOrderIdbyId(int id, int newOrderId);
+
+//DELETE FROM CLIENTE WHERE ID = 2
+
+//  @Query(value=""DELETE FROM Backlog b WHERE b.code = :code")
+//    @Query(value = "delete from cliente c where c.nome =:nome")
+//    @Modifying
+//    @Query(value = " delete from cliente c where c.nome = :nome")
+//     void deleteByNome(@Param("nome") String nome);
 //
 //    boolean existsByNome(String nome);
 
-    @Autowired
-    @Query(" select c from cliente c left join fetch c.pedidos where c.id =:id ")
-    Cliente findClienteFetchPedidos(@Param("id") Integer id);
-}
+
+//@Query(" select c from cliente c left join fetch c.pedido where c.id = :id  ")
+//Cliente findClienteFetchPedidos( @Param("id") Integer id );
+//}
 
 
 

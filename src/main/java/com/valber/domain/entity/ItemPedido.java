@@ -1,11 +1,9 @@
 package com.valber.domain.entity;
 
-
 import javax.persistence.*;
 
 @Entity
 @Table(name = "item_pedido")
-
 public class ItemPedido {
 
     @Id
@@ -24,19 +22,12 @@ public class ItemPedido {
     @Column
     private Integer quantidade;
 
-    public ItemPedido(Integer id, Pedido pedido, Produto produto, Integer quantidade) {
-        id = id;
-        this.pedido = pedido;
-        this.produto = produto;
-        this.quantidade = quantidade;
-    }
-
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
-        id = id;
+        this.id = id;
     }
 
     public Pedido getPedido() {
