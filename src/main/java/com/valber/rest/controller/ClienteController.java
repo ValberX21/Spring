@@ -2,6 +2,9 @@ package com.valber.rest.controller;
 
 import com.valber.domain.entity.Cliente;
 import com.valber.domain.repository.Clientes;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
@@ -34,6 +37,11 @@ public class ClienteController {
     }
 
     @GetMapping("{id}")
+    @ApiOperation("Ober detalhes de um cliente")
+    @ApiResponses({
+            @ApiResponse(code = 200, message=  "Cliente encontrado"),
+            @ApiResponse(code = 404, message=  "Cliente não encontrado")
+    })
     //@ResponseBody
     public Cliente getClienteById(@PathVariable Integer id) {
         //Optional<Cliente> cliente = clientes.findById(id);
